@@ -1,0 +1,36 @@
+service: pdf-upload-backend-serverless
+
+provider:
+  name: aws
+  runtime: nodejs18.x # Updated runtime from nodejs14.x to nodejs18.x
+  region: us-east-1
+  environment:
+    S3_BUCKET: ${self:custom.s3BucketName}
+    DYNAMO_DB_TABLE: ${self:custom.dynamodbTableName}
+
+functions:
+  uploadPDF:
+    handler: handler.uploadPDF
+    timeout: 900
+    events:
+      - http:
+          path: upload
+          method: post
+          cors: true
+
+  getFiles:
+    handler: handler.getFiles
+    events:
+      - http:
+          path: files
+          method: get
+          cors: true
+
+custom:
+  serverless-offline:
+    httpPort: 4000
+  dynamodbTableName: rockland-pdf-upload-history  # Your existing DynamoDB table name
+  s3BucketName: rockland-pdf-file-upload      # Your existing S3 bucket name
+
+plugins:
+  - serverless-offline

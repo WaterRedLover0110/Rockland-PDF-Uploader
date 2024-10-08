@@ -1,0 +1,19 @@
+{
+  "name": "pdf-upload-app",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "frontend:start": "yarn workspace frontend start",
+    "backend:deploy": "yarn workspace backend deploy",
+    "backend:offline": "yarn workspace backend serverless offline",
+    "install:all": "yarn install",
+    "dev": "concurrently \"yarn backend:offline\" \"yarn frontend:start\""
+  },
+  "devDependencies": {
+    "concurrently": "^6.0.0"
+  }
+}
